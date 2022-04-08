@@ -23,7 +23,14 @@ const useExists = (req, res, next) => {
 
 // REFACTOR TO USE WITH '/urls/:urlId/'
 const list = (req, res) =>{
-    res.json({data: uses});
+    const {urlId} = req.params;
+    const filterUsesByUrlId = uses.filter(use => use.urlId === Number(urlId));
+
+    if(urlId){
+        return res.json({data: filterUsesByUrlId});
+    }
+
+    return res.json({data: uses});
 }
 
 // REFACTOR TO USE WITH '/urls/:urlId/'
@@ -34,7 +41,7 @@ const read = (req, res) => {
 const destroy = (req, res) => {
     const useIndex = uses.findIndex(use => use.id === Number(res.locals.use.id));
     const deletedUse = uses.splice(useIndex, 1);
-    res.status(200).json({data: deletedUse});
+    res.status(204).json({data: deletedUse});
 }
 
 module.exports = {

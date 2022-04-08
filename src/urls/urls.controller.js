@@ -43,6 +43,8 @@ const createNewUse = (req, res, next) => {
     }
 
     //push new use to 'uses'
+    uses.push(newUse);
+    next();
     /*
         try{
             uses.push(newUse);
@@ -55,8 +57,6 @@ const createNewUse = (req, res, next) => {
             })
         }
     */
-    uses.push(newUse);
-    next();
 }
 
 
@@ -64,7 +64,7 @@ const createNewUse = (req, res, next) => {
 /* *********************************** */
 const create = (req, res) => {
     const { newUrl } = res.locals;
-    const nUrl = { newUrl, id: urls.length + 1 }
+    const nUrl = { href: newUrl, id: urls.length + 1 }
 
     urls.push(nUrl);
     res.status(201).json({ data: nUrl });
@@ -85,7 +85,7 @@ const update = (req, res) => {
     const foundUrl = res.locals.url;
 
     foundUrl.href = res.locals.newUrl;
-    res.status(201).json({ data: foundUrl });
+    res.status(200).json({ data: foundUrl });
 }
 
 
@@ -93,5 +93,6 @@ module.exports = {
     list,
     create: [hasHref, create],
     read: [urlExists, createNewUse, read],
-    update: [urlExists, hasHref, update]
+    update: [urlExists, hasHref, update],
+    urlExists
 }

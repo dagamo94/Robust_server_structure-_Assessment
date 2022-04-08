@@ -16,6 +16,6 @@ router
     .all(methodNotAllowed);
 
 // EXTEND ROUTER TO USE '/urls/:urlId/uses' ROUTES
-//router.use("/:urlId/uses", controller.urlExists, usesRouter);
+router.use("/:urlId/uses", controller.urlExists, usesRouter);
 
 module.exports = router;
