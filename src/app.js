@@ -10,7 +10,7 @@ app.use(express.json());
 
 // INVOKE URLS AND USES ROUTERS ON THEIR RESPECTIVE ROUTES' STARTING POINTS
 app.use("/urls", urlsRouter);
-app.use("/uses", usesRouter);
+// app.use("/uses", usesRouter);
 
 // ------ ERROR HANDLING -------
 // ROUTE NOT FOUND HANDLER
@@ -24,7 +24,7 @@ app.use((req, res, next) =>{
 // ERROR HANDLER (ERR, REQ, RES, NEXT)
 app.use((err, req, res, next) =>{
     console.error(err);
-    const {status = 500, message = `Something went wrong: Internal server error.`} = error;
+    const {status = 500, message = `Something went wrong: Internal server error.`} = err;
     res.status(status).json({error: message});
 })
 
