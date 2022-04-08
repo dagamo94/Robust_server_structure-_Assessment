@@ -10,7 +10,7 @@ app.use(express.json());
 
 // INVOKE URLS AND USES ROUTERS ON THEIR RESPECTIVE ROUTES' STARTING POINTS
 app.use("/urls", urlsRouter);
-// app.use("/uses", usesRouter);
+app.use("/uses", usesRouter);
 
 // ------ ERROR HANDLING -------
 // ROUTE NOT FOUND HANDLER

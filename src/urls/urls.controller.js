@@ -1,4 +1,5 @@
 const urls = require("../data/urls-data");
+const uses = require("../data/uses-data");
 
 // ********** MIDDLEWARE *********
 /* ******************************* */
@@ -46,6 +47,9 @@ const list = (req, res) => {
     res.status(200).json({ data: urls });
 }
 
+// EACH GET '/urls/:urlId REQUEST SHOULD CREATE A NEW USE
+// push a new USE object to 'uses' array every time read is called
+// create middleware?
 const read = (req, res) => {
     res.json({ data: res.locals.url });
 }
@@ -54,7 +58,6 @@ const update = (req, res) => {
     const foundUrl = res.locals.url;
 
     foundUrl.href = res.locals.newUrl;
-
     res.status(201).json({data: foundUrl});
 }
 
