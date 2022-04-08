@@ -20,8 +20,8 @@ const urlExists = (req, res, next) => {
 const hasHref = (req, res, next) => {
     const { data: { href } = {} } = req.body;
 
-    if(href){
-        res.locals.newUrl = {href}
+    if (href) {
+        res.locals.newUrl = { href }
         return next();
     }
 
@@ -33,21 +33,31 @@ const hasHref = (req, res, next) => {
 
 
 // ********** ROUTE HANDLERS *********
-/* ******************************* */
+/* *********************************** */
 const create = (req, res) => {
-    const {newUrl} = res.locals;
-    const nUrl = {...newUrl, id: urls.length+1}
+    const { newUrl } = res.locals;
+    const nUrl = { ...newUrl, id: urls.length + 1 }
 
     urls.push(nUrl);
-    res.status(201).json({data: nUrl});
+    res.status(201).json({ data: nUrl });
 }
 
 const list = (req, res) => {
-    res.status(200).json(urls);
+    res.status(200).json({ data: urls });
+}
+
+const read = (req, res) => {
+    res.json({ data: res.locals.url });
+}
+
+const update = (req, res) => {
+
 }
 
 
 module.exports = {
     list,
-    create: [hasHref, create]
+    create: [hasHref, create],
+    read: [urlExists, read],
+    update: [urlExists, hasHref, update]
 }
