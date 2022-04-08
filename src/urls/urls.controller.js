@@ -32,6 +32,33 @@ const hasHref = (req, res, next) => {
     })
 }
 
+const createNewUse = (req, res, next) => {
+    const url = res.locals.url;
+
+    // create new use obj
+    const newUse = {
+        id: uses.length + 1,
+        urlId: url.id,
+        time: Date.now()
+    }
+
+    //push new use to 'uses'
+    /*
+        try{
+            uses.push(newUse);
+            next();
+        }catch(err){
+            throw err;
+            next({
+                status:  400,
+                message: `Unable to create new use record`
+            })
+        }
+    */
+    uses.push(newUse);
+    next();
+}
+
 
 // ********** ROUTE HANDLERS *********
 /* *********************************** */
@@ -49,7 +76,7 @@ const list = (req, res) => {
 
 // EACH GET '/urls/:urlId REQUEST SHOULD CREATE A NEW USE
 // push a new USE object to 'uses' array every time read is called
-// create middleware?
+// create middleware? yes
 const read = (req, res) => {
     res.json({ data: res.locals.url });
 }
@@ -58,13 +85,13 @@ const update = (req, res) => {
     const foundUrl = res.locals.url;
 
     foundUrl.href = res.locals.newUrl;
-    res.status(201).json({data: foundUrl});
+    res.status(201).json({ data: foundUrl });
 }
 
 
 module.exports = {
     list,
     create: [hasHref, create],
-    read: [urlExists, read],
+    read: [urlExists, createNewUse, read],
     update: [urlExists, hasHref, update]
 }
