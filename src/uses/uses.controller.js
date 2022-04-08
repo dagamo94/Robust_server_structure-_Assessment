@@ -28,11 +28,13 @@ const list = (req, res) =>{
 
 // REFACTOR TO USE WITH '/urls/:urlId/'
 const read = (req, res) => {
-
+    res.json({data: res.locals.use});
 }
 
 const destroy = (req, res) => {
-
+    const useIndex = uses.findIndex(use => use.id === Number(res.locals.use.id));
+    const deletedUse = uses.splice(useIndex, 1);
+    res.status(200).json({data: deletedUse});
 }
 
 module.exports = {
