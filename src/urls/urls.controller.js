@@ -21,7 +21,7 @@ const hasHref = (req, res, next) => {
     const { data: { href } = {} } = req.body;
 
     if (href) {
-        res.locals.newUrl = { href }
+        res.locals.newUrl = href;
         return next();
     }
 
@@ -36,7 +36,7 @@ const hasHref = (req, res, next) => {
 /* *********************************** */
 const create = (req, res) => {
     const { newUrl } = res.locals;
-    const nUrl = { ...newUrl, id: urls.length + 1 }
+    const nUrl = { newUrl, id: urls.length + 1 }
 
     urls.push(nUrl);
     res.status(201).json({ data: nUrl });
@@ -51,7 +51,11 @@ const read = (req, res) => {
 }
 
 const update = (req, res) => {
+    const foundUrl = res.locals.url;
 
+    foundUrl.href = res.locals.newUrl;
+
+    res.status(201).json({data: foundUrl});
 }
 
 
